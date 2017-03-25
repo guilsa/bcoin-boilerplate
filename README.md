@@ -48,6 +48,26 @@ default config file is setup in `./bcoin-config.js`. This can be customized with
 
 Nodejs server runs on port 5000 by default and acts as a router sending any requests to /node/ to the bcoin node (which runs on port 8080)
 
+## Popular commands
+
+* displays your wallet
+`bcoin wallet get`
+`bcoin wallet get -n simnet` (if you're running your own blockchain)
+
+* mine 2 blocks (setgenerate param in docs)
+`bcoin rpc generatetoaddress 2 'your_wallet_address'`
+`bcoin rpc generatetoaddress 2 'your_wallet_address' -n simnet` (if you're running your own blockchain)
+
+* send money
+`bcoin wallet send friends_wallet_address 10`
+
+## To set up a local blockchain
+
+* assuming someone has created a local simnet blockchain for yhou, you can connect to it using `bcoin --network simnet --nodes network_ip_address --host '::' --public-host your_ip_address`
+* On bcoin-config.js under prefix and network properties, substitute value for 'simnet'
+* From CLI run `lsof -Pnl +M -i4 | grep LISTEN` and look for port where simnet is running
+* On nodeRouter.js, change bcoinPort to port where simnet is running (see above)
+
 ## Notes
 * uses eslint with airbnb configs. These are quite strict but make the code nice and consistent, enforcing ES6 notation where possible. This can be changed via the .eslintrc.json config file.
 * There are two servers that need to be run- one is the bcoin node (which is set at a default :8080 port) and the other is a regular node server with router that runs on port :5000. The node server routes requests to the `/node` endpoint to the bcoin node
